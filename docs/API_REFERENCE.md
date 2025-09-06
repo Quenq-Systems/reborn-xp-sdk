@@ -87,11 +87,33 @@ Reborn XP runs a powerful internal web server that can serve any file from the V
 The `shell` object provides access to core OS state and functionalities.
 
 *   `shell._currentUser: string`: A string containing the username of the currently logged-in user.
-*   `shell.playSystemSound(soundName: string)`: Plays a system sound. `soundName` can be 'startup', 'logon', 'logoff', 'shutdown', 'error', 'alert', 'ding', etc.
-*   `shell.reboot()`: Reboot the system.
-*   `shell.showBSOD(customErrorData: {...})`: Crash the system.
-    *   `customErrorData`: Show custom messages.
-        *   `file: string`: The file name that caused the BSOD.
-        *   `message: string`: The cause of the BSOD. (e.g.: LOREM_IPSUM_HELLO_WORLD)
-        *   `code: string`: Error code of the cause. (e.g.: 0x04ff00e1)
-*   `shell.logoffUser(usernameToLogoff: string)`: Logoff a specified user
+*   `shell.playSystemSound(soundName: string)`: Plays a system sound based on an internal event name. The actual `.wav`, `.mp3`, or `.ogg` file played depends on the user's active Sound Scheme, which can be configured in `Control Panel > Sounds and Audio Devices Properties`. If no custom sound is set for an event, a system default is used.
+    *   **Valid `soundName` values (customizable events):**
+        *   `'startup'`: Start Windows
+        *   `'logon'`: Logon
+        *   `'logoff'`: Logoff
+        *   `'shutdown'`: Exit Windows
+        *   `'error'`: Critical Stop
+        *   `'alert'`: Asterisk
+        *   `'exclamation'`: Exclamation
+        *   `'ding'`: Close program
+        *   `'start'`: Menu command (e.g., opening Start Menu)
+        *   `'balloon'`: Windows Balloon
+        *   `'recycle'`: Recycle Empty
+        *   `'battcritical'`: Critical Battery Alarm
+        *   `'xpding'`: Default Beep
+        *   `'hdw_fail'`: Hardware Fail
+        *   `'hdw_insert'`: Hardware Insert
+        *   `'hdw_remove'`: Hardware Remove
+    *   **Valid `soundName` values (direct sounds, not in properties):**
+        *   `'lowbatt'`
+        *   `'chimes'`
+        *   `'chord'`
+        *   `'tada'`
+*   `shell.reboot()`: Reboots the system.
+*   `shell.showBSOD(customErrorData: {...})`: Crashes the system and displays a Blue Screen of Death.
+    *   `customErrorData`: An object to specify custom error messages.
+        *   `file: string`: The file name that caused the BSOD (e.g., `NV4_DISP.DLL`).
+        *   `message: string`: The error message constant (e.g., `DRIVER_IRQL_NOT_LESS_OR_EQUAL`).
+        *   `code: string`: The hexadecimal error code (e.g., `0x000000D1`).
+*   `shell.logoffUser(usernameToLogoff: string)`: Logs off a specified user, closing their applications and returning to the Welcome screen.
